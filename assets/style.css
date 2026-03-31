@@ -438,6 +438,40 @@ nav {
   color: var(--blue);
 }
 
+/* ── DEPOIMENTOS MÍDIA ── */
+.depo-media-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.depo-media-item {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.depo-media-item img,
+.depo-media-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  aspect-ratio: 9/16;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .depo-media-section {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 /* ── MENTORIA ── */
 #mentoria {
   padding: 96px 0;
