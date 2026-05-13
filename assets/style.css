@@ -1007,6 +1007,131 @@ nav {
   color: rgba(255, 255, 255, 0.55);
 }
 
+/* modal de redirecionamento */
+.redirect-modal[hidden] {
+  display: none;
+}
+
+.redirect-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.redirect-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.68);
+  backdrop-filter: blur(8px);
+}
+
+.redirect-modal__content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 440px);
+  background: var(--white);
+  border: 1px solid rgba(26, 92, 255, 0.14);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+}
+
+.redirect-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.redirect-modal__close:hover {
+  background: var(--gray-200);
+  color: var(--black);
+}
+
+.redirect-modal__label {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.redirect-modal__content h2 {
+  max-width: 320px;
+  margin-bottom: 12px;
+  color: var(--black);
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1.12;
+}
+
+.redirect-modal__content p {
+  color: var(--gray-500);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.redirect-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.redirect-modal__cancel,
+.redirect-modal__confirm {
+  min-height: 46px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+}
+
+.redirect-modal__cancel {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.redirect-modal__cancel:hover {
+  background: var(--gray-200);
+}
+
+.redirect-modal__confirm {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.redirect-modal__confirm:hover {
+  background: var(--blue-dark);
+  transform: translateY(-1px);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
 /* ── FOOTER ── */
 footer {
   background: var(--black);
