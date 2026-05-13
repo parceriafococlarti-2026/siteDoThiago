@@ -1,60 +1,91 @@
-// Fade-in on scroll
-const observer = new IntersectionObserver(
-  (entries) =>
-    entries.forEach((e) => {
-      if (e.isIntersecting) e.target.classList.add("visible");
-    }),
-  { threshold: 0.1 },
-);
-document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+(function () {
+  var diagnosticoUrl = "https://form.jotform.com/261315654088056";
+  var diagnosticoModal = document.getElementById("diagnostico-modal");
+  var diagnosticoButtons = document.querySelectorAll("[data-diagnostico-cta]");
+  var modalCloseButtons = diagnosticoModal
+    ? diagnosticoModal.querySelectorAll("[data-modal-close]")
+    : [];
+  var modalConfirmButton = diagnosticoModal
+    ? diagnosticoModal.querySelector(".redirect-modal__confirm")
+    : null;
+  var lastFocusedElement = null;
 
-const diagnosticoUrl = "https://form.jotform.com/261315654088056";
-const diagnosticoModal = document.querySelector("#diagnostico-modal");
-const diagnosticoButtons = document.querySelectorAll("[data-diagnostico-cta]");
-const modalCloseButtons =
-  diagnosticoModal?.querySelectorAll("[data-modal-close]");
-const modalConfirmButton = diagnosticoModal?.querySelector(
-  ".redirect-modal__confirm",
-);
-let lastFocusedElement = null;
+  function initFadeIn() {
+    var fadeElements = document.querySelectorAll(".fade-in");
 
-const openDiagnosticoModal = () => {
-  if (!diagnosticoModal) return;
+    if (!("IntersectionObserver" in window)) {
+      Array.prototype.forEach.call(fadeElements, function (element) {
+        element.classList.add("visible");
+      });
+      return;
+    }
 
-  lastFocusedElement = document.activeElement;
-  diagnosticoModal.hidden = false;
-  document.body.classList.add("modal-open");
-  modalConfirmButton?.focus();
-};
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.1 },
+    );
 
-const closeDiagnosticoModal = () => {
-  if (!diagnosticoModal) return;
-
-  diagnosticoModal.hidden = true;
-  document.body.classList.remove("modal-open");
-
-  if (lastFocusedElement instanceof HTMLElement) {
-    lastFocusedElement.focus();
+    Array.prototype.forEach.call(fadeElements, function (element) {
+      observer.observe(element);
+    });
   }
-};
 
-diagnosticoButtons.forEach((button) => {
-  button.addEventListener("click", (event) => {
-    event.preventDefault();
-    openDiagnosticoModal();
-  });
-});
+  function openDiagnosticoModal() {
+    if (!diagnosticoModal) return;
 
-modalCloseButtons?.forEach((button) => {
-  button.addEventListener("click", closeDiagnosticoModal);
-});
+    lastFocusedElement = document.activeElement;
+    diagnosticoModal.hidden = false;
+    document.body.classList.add("modal-open");
 
-modalConfirmButton?.addEventListener("click", () => {
-  window.location.href = diagnosticoUrl;
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && diagnosticoModal && !diagnosticoModal.hidden) {
-    closeDiagnosticoModal();
+    if (modalConfirmButton) {
+      modalConfirmButton.focus();
+    }
   }
-});
+
+  function closeDiagnosticoModal() {
+    if (!diagnosticoModal) return;
+
+    diagnosticoModal.hidden = true;
+    document.body.classList.remove("modal-open");
+
+    if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+      lastFocusedElement.focus();
+    }
+  }
+
+  function initDiagnosticoModal() {
+    Array.prototype.forEach.call(diagnosticoButtons, function (button) {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        openDiagnosticoModal();
+      });
+    });
+
+    Array.prototype.forEach.call(modalCloseButtons, function (button) {
+      button.addEventListener("click", closeDiagnosticoModal);
+    });
+
+    if (modalConfirmButton) {
+      modalConfirmButton.addEventListener("click", function () {
+        window.location.href = diagnosticoUrl;
+      });
+    }
+
+    document.addEventListener("keydown", function (event) {
+      if (
+        event.key === "Escape" &&
+        diagnosticoModal &&
+        !diagnosticoModal.hidden
+      ) {
+        closeDiagnosticoModal();
+      }
+    });
+  }
+
+  initFadeIn();
+  initDiagnosticoModal();
+})();
